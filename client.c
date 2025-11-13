@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
 {
     if (argc < 3) {
         fprintf(stderr, "Usage: %s <srvaddr> <string>\n", argv[0]);
-        fprintf(stderr, "Example: %s 127.0.0.1 \"Hello World\"\n", argv[0]);
+        fprintf(stderr, "Example: %s 127.0.0.1 \"Hello World\"\n", argv[0]); // can change the ip address
         return 1;
     }
 
