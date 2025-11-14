@@ -167,6 +167,6 @@ int main(int argc, char const *argv[])
     // Close the socket (cleanup)
     close(clnSck);
     
-    // Return 0 
+   
     return 0;
 }
