@@ -99,7 +99,6 @@ int main(int argc, char* argv[]) {
         // strcat: string concatenation
         strcat(ls_cmd, argv[i]);
     }
-    // Example: if args are ["-l", "/tmp"], ls_cmd becomes "-l /tmp"
     
     // Connect to the ls server
     int sock = connectToLS(server_ip);
@@ -138,7 +137,7 @@ int main(int argc, char* argv[]) {
     // - Error occurs (read returns -1)
     // - All data received
     
-    // Close the socket (cleanup)
+    // Close the socket 
     close(sock);
     
     return 0;
