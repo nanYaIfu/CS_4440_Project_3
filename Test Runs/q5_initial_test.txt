@@ -1,0 +1,119 @@
+Script started on 2025-11-11 09:03:36
+$ ./fs_server_q5 11090 4 8 ./fs_dirs.img
+fs_server listening on 11090 (cyl=4 sec=8)
+
+# --- Terminal A: Directory features + edge cases ---
+$ ./fs_client_q5 127.0.0.1 11090
+Connected. Commands: F | L b | C f | D f | R f | W f l | A f l | MKDIR d | CD d|..|/ | PWD | RMDIR d | quit
+> F
+0
+> PWD
+/
+> MKDIR docs
+0
+> MKDIR docs
+1
+> MKDIR bad/name
+2
+> L 1
+d docs 0
+
+> CD docs
+0
+> C notes.txt
+0
+> W notes.txt 5
+DATA: enter exactly 5 bytes
+hello
+0
+> L 1
+- notes.txt 5
+
+> CD notes.txt
+1
+> CD ..
+0
+> MKDIR empty
+0
+> RMDIR docs
+2
+> RMDIR empty
+0
+> CD docs
+0
+> D missing.txt
+1
+> D notes.txt
+0
+> CD /
+0
+> RMDIR docs
+0
+> PWD
+/
+
+# --- Terminal B: Concurrency: two clients share the tree ---
+$ ./fs_client_q5 127.0.0.1 11090
+Connected. Commands: F | L b | C f | D f | R f | W f l | A f l | MKDIR d | CD d|..|/ | PWD | RMDIR d | quit
+> MKDIR projects
+0
+> CD projects
+0
+> C todo.txt
+0
+> W todo.txt 4
+DATA: enter exactly 4 bytes
+TODO
+0
+> L 1
+- todo.txt 4
+
+# --- Terminal A lists the same directory ---
+> CD /
+0
+> CD projects
+0
+> L 1
+- todo.txt 4
+
+# --- Exhaust directory entries ---
+> CD /
+0
+> F
+0
+> MKDIR d1
+0
+> MKDIR d2
+0
+> MKDIR d3
+0
+> MKDIR d4
+0
+> MKDIR d5
+0
+> MKDIR d6
+0
+> MKDIR d7
+0
+> MKDIR d8
+0
+> MKDIR d9
+0
+> MKDIR d10
+0
+> MKDIR d11
+0
+> MKDIR d12
+0
+> MKDIR d13
+0
+> MKDIR d14
+0
+> MKDIR d15
+0
+> MKDIR d16
+2
+
+> quit
+$ 
+Script done on 2025-11-11 10:45:19
