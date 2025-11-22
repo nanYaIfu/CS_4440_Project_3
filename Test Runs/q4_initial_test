@@ -1,0 +1,106 @@
+Script started on 2025-11-11 01:22:59
+$ ./fs_server 10090 4 8 ./fs.img
+fs_server listening on 10090 (cyl=4 sec=8)
+
+# --- Terminal A: Client happy path + errors ---
+$ ./fs_client 127.0.0.1 10090
+Connected. Commands: F | C f | D f | L b | R f | W f l | A f l | quit
+> F
+0
+> C alpha.txt
+0
+> C alpha.txt
+1
+> W alpha.txt 0
+DATA: enter exactly 0 bytes (shorter -> zero padding not applied here)
+0
+> R alpha.txt
+0 0 
+> A alpha.txt 5
+DATA: enter exactly 5 bytes (shorter -> zero padding not applied here)
+HELLO
+0
+> R alpha.txt
+0 5 HELLO
+> W alpha.txt 11
+DATA: enter exactly 11 bytes (shorter -> zero padding not applied here)
+hello world
+0
+> R alpha.txt
+0 11 hello world
+> L 1
+alpha.txt 11
+
+> D alpha.txt
+0
+> R alpha.txt
+ERR 1, len=0
+> D no_such.txt
+1
+
+# --- Capacity error: write larger than available data blocks (4x8=32 total blocks; 10 meta -> 22 data blocks) ---
+> C big.bin
+0
+> W big.bin 3000
+DATA: enter exactly 3000 bytes (shorter -> zero padding not applied here)
+[...binary omitted...]
+2
+
+# --- Directory table exhaustion (up to 16 files with default dir blocks) ---
+> F
+0
+> C f01
+0
+> C f02
+0
+> C f03
+0
+> C f04
+0
+> C f05
+0
+> C f06
+0
+> C f07
+0
+> C f08
+0
+> C f09
+0
+> C f10
+0
+> C f11
+0
+> C f12
+0
+> C f13
+0
+> C f14
+0
+> C f15
+0
+> C f16
+0
+> C f17
+2
+> L 0
+f01
+f02
+f03
+f04
+f05
+f06
+f07
+f08
+f09
+f10
+f11
+f12
+f13
+f14
+f15
+f16
+
+> quit
+$ 
+Script done on 2025-11-11 01:44:10
