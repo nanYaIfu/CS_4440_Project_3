@@ -1,4 +1,4 @@
-# Makefile — builds for Questions 3, 4, 5
+# Makefile — builds for Parts 1,2, 3, 4, 5
 
 CC       := gcc
 CFLAGS   := -O2 -std=c17 -Wall -Wextra -pedantic
