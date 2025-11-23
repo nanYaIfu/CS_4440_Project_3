@@ -53,7 +53,7 @@ random_client: random_client.c
 file_system_server: file_system_server.c
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
 
- file_system_client: file_system_client.c
+file_system_client: file_system_client.c
 	$(CC) $(CFLAGS) $< -o $@
 
 # ---------------- Part 5 - Directory Structure ----------------
